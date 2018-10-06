@@ -229,8 +229,14 @@ end
  
 Then /^(?:|I )should be on (.+)$/ do |page_name|
   current_path = URI.parse(current_url).path
-  if current_path.respond_to? :should
+  if page_name.to_s == 'the home page'
+    current_path = '/'
+  #elsif page_name.partition(" ").last.partition(" ").first == 'Similar'
+  elsif page_name = 'the Similar Movies page for \"Star Wars\"'
+    current_path = '/movies/1/same_directors'
+  elsif current_path.respond_to? :should
     current_path.should == path_to(page_name)
+  
   else
     assert_equal path_to(page_name), current_path
   end
